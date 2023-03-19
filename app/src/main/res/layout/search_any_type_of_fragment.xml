@@ -13,12 +13,14 @@
 
         <EditText
             android:id="@+id/new_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/search"
             android:inputType="text"
             android:autofillHints="Cricket"
             android:paddingStart="@dimen/searchBarPaddingStart"
+            android:paddingEnd="@dimen/searchBarPaddingStart"
+            android:drawableStart="@drawable/baseline_search_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

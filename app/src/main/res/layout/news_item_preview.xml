@@ -14,36 +14,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/item_view_margin_bottom"
-        android:padding="8dp">
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="4dp">
 
         <ImageView
             android:id="@+id/article_image"
-            android:layout_width="140dp"
+            android:layout_width="150dp"
             android:layout_height="90dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/article_image" />
-
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tv_title, tv_source"/>
         <TextView
             android:id="@+id/tv_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="28dp"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:padding="4dp"
             app:text="@{article.source.name}"
             tools:text="@string/source"
             android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/article_image" />
+            app:layout_constraintStart_toEndOf="@+id/article_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:layout_constraintBottom_toTopOf="@+id/tv_description"/>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="28dp"
-            android:padding="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/title"
@@ -51,7 +58,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:text="@{article.title}"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/article_image"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,35 +67,34 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:ellipsize="end"
             android:maxLines="5"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:text="@string/description"
             android:textColor="@android:color/black"
             app:text="@{article.description}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/article_image"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_barrier" />
 
-        <TextView
-            android:id="@+id/tv_published_at"
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/horizontal_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:padding="4dp"
-            android:text="@string/published_at"
-            android:textColor="@android:color/black"
-            app:text="@{article.publishedAt}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_source" />
+            android:orientation="horizontal"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="article_image, tv_source"/>
 
         <View
+            android:id="@+id/separation_line"
             android:layout_width="0dp"
             android:layout_height="4dp"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@color/cardview_dark_background"
-            app:layout_constraintTop_toBottomOf="@+id/tv_published_at" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

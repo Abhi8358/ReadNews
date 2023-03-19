@@ -24,8 +24,8 @@ interface NewsApi {
         searchQuery: String,
         @Query("page")
         pageNumber: Int = 1,
-        @Query("api_key")
-        api_key: String = API_KEY
+        @Query("apiKey")
+        apiKey: String = API_KEY
     ): Response<NewsResponseViewData>
 
 }

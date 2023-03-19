@@ -48,9 +48,24 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsAdapterViewHolder>() {
     override fun onBindViewHolder(holder: NewsAdapterViewHolder, position: Int) {
         val article = differ.currentList[position]
         holder.itemView.apply {
-            Glide.with(this).load(article.url).into(holder.binding.articleImage)
-            holder.binding.article = article
 
+            Log.d("AAAAAAAA", "url " + article.urlToImage)
+            if (article.urlToImage == null) {
+                holder.binding.articleImage.visibility = View.GONE
+                Log.d("AAAAAAAA", "visibility = " + holder.binding.articleImage.visibility)
+            } else {
+                holder.binding.articleImage.visibility = View.VISIBLE
+                Glide.with(this).load(article.urlToImage).into(holder.binding.articleImage)
+            }
+
+            holder.binding.article = article
         }
+        setClickListener(holder.binding, position)
+    }
+
+    private fun setClickListener(newsItemPreviewBinding: NewsItemPreviewBinding, position: Int) {
+       newsItemPreviewBinding.articleContainer.setOnClickListener {
+           Log.d("AAAAAAAA", "tap on item $position")
+       }
     }
 }
