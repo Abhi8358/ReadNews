@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/news_navigation"
+    app:startDestination="@id/latestNewsFragment">
+
+
+    <fragment
+        android:id="@+id/searchAnyTypeOfNews"
+        android:name="com.example.myapplication.mvvmnews.android.ui.fragments.SearchAnyTypeOfNewsFragment"
+        android:label="SearchAnyTypeOfNews" >
+        <action
+            android:id="@+id/action_searchAnyTypeOfNews_to_articlesFragment"
+            app:destination="@id/articlesFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/savedNewsFragment"
+        android:name="com.example.myapplication.mvvmnews.android.ui.fragments.SavedNewsFragment"
+        android:label="SavedNewsFragment" >
+        <action
+            android:id="@+id/action_savedNewsFragment_to_articlesFragment"
+            app:destination="@id/articlesFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/latestNewsFragment"
+        android:name="com.example.myapplication.mvvmnews.android.ui.fragments.LatestNewsFragment"
+        android:label="LatestNewsFragment" >
+        <action
+            android:id="@+id/action_latestNewsFragment_to_articlesFragment"
+            app:destination="@id/articlesFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/articlesFragment"
+        android:name="com.example.myapplication.mvvmnews.android.ui.fragments.ArticlesFragment"
+        android:label="ArticlesFragment" />
+</navigation>
