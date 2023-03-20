@@ -5,23 +5,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.SearchAnyTypeOfFragmentBinding
 import com.example.myapplication.mvvmnews.android.adapters.NewsAdapter
+import com.example.myapplication.mvvmnews.android.model.ArticleViewData
 import com.example.myapplication.mvvmnews.android.ui.MainActivity
 import com.example.myapplication.mvvmnews.android.ui.NewsViewModel
+import com.example.myapplication.mvvmnews.android.utils.Constants
 import com.example.myapplication.mvvmnews.android.utils.Resource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchAnyTypeOfNewsFragment : Fragment(R.layout.search_any_type_of_fragment) {
+class SearchAnyTypeOfNewsFragment : Fragment() {
     lateinit var binding: SearchAnyTypeOfFragmentBinding
     lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
@@ -36,12 +40,12 @@ class SearchAnyTypeOfNewsFragment : Fragment(R.layout.search_any_type_of_fragmen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //return super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.search_any_type_of_fragment, container, false)
 
         setRecyclerView()
         setSearchBox()
         setSearchAdapter()
+        setNavigationCLickListener()
         return binding.root
     }
     
@@ -59,8 +63,8 @@ class SearchAnyTypeOfNewsFragment : Fragment(R.layout.search_any_type_of_fragmen
             job?.cancel()
             job = MainScope().launch {
                 delay(500L)
-                if ( editable.toString().isNotEmpty())
-                viewModel.getSearchedNews(editable.toString())
+                if (editable.toString().isNotEmpty())
+                    viewModel.getSearchedNews(editable.toString())
             }
         }
     }
@@ -91,5 +95,24 @@ class SearchAnyTypeOfNewsFragment : Fragment(R.layout.search_any_type_of_fragmen
 
     private fun showProgressBar() {
         binding.paginationProgressBar.visibility = View.VISIBLE
+    }
+
+    fun setNavigationCLickListener() {
+        newsAdapter.setOnClickListener(object : NewsAdapter.OnClickListener {
+            override fun onClick(articleUrl: String) {
+                val bundle = Bundle()
+                bundle.putString(Constants.ARTICLE_URL, articleUrl)
+                findNavController().navigate(
+                    R.id.action_searchAnyTypeOfNews_to_articlesFragment,
+                    bundle
+                )
+            }
+
+            override fun onLongClick(article: ArticleViewData): Boolean {
+                viewModel.saveArticle(article)
+                Toast.makeText(requireContext(), "Article Saved Successfully", Toast.LENGTH_SHORT).show()
+                return true
+            }
+        })
     }
 }

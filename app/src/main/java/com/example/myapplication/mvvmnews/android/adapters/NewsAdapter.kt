@@ -13,6 +13,7 @@ import com.example.myapplication.mvvmnews.android.model.ArticleViewData
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsAdapterViewHolder>() {
 
+    private var onClickListener: OnClickListener? = null
     class NewsAdapterViewHolder (newsItemPreviewBinding: NewsItemPreviewBinding) : RecyclerView.ViewHolder(newsItemPreviewBinding.root) {
         val binding: NewsItemPreviewBinding = newsItemPreviewBinding
     }
@@ -50,22 +51,36 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsAdapterViewHolder>() {
         holder.itemView.apply {
 
             Log.d("AAAAAAAA", "url " + article.urlToImage)
-            if (article.urlToImage == null) {
-                holder.binding.articleImage.visibility = View.GONE
-                Log.d("AAAAAAAA", "visibility = " + holder.binding.articleImage.visibility)
-            } else {
-                holder.binding.articleImage.visibility = View.VISIBLE
-                Glide.with(this).load(article.urlToImage).into(holder.binding.articleImage)
-            }
+
+            Glide.with(this).load(article.urlToImage).into(holder.binding.articleImage)
+            holder.binding.articleImage.visibility = if(article.urlToImage == null) View.GONE else View.VISIBLE
 
             holder.binding.article = article
         }
-        setClickListener(holder.binding, position)
+        setClickListener(holder.binding, article.url)
+        setLongClickToSaveArticle(holder.binding, article)
     }
 
-    private fun setClickListener(newsItemPreviewBinding: NewsItemPreviewBinding, position: Int) {
-       newsItemPreviewBinding.articleContainer.setOnClickListener {
-           Log.d("AAAAAAAA", "tap on item $position")
-       }
+    private fun setClickListener(newsItemPreviewBinding: NewsItemPreviewBinding, articleUrl: String) {
+
+        newsItemPreviewBinding.articleContainer.setOnClickListener {
+            onClickListener?.onClick(articleUrl)
+        }
+    }
+
+    private fun setLongClickToSaveArticle(newsItemPreviewBinding: NewsItemPreviewBinding, article: ArticleViewData) {
+        newsItemPreviewBinding.articleContainer.setOnLongClickListener {
+            onClickListener?.onLongClick(article) == true
+        }
+    }
+
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    interface OnClickListener {
+        fun onClick(articleUrl: String)
+
+        fun onLongClick(article: ArticleViewData): Boolean
     }
 }

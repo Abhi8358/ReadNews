@@ -5,9 +5,9 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <WebView
+        android:id="@+id/view_article_in_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </WebView>
 </layout>

@@ -1,9 +1,11 @@
 package com.example.myapplication.mvvmnews.android.ui
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.mvvmnews.android.model.ArticleViewData
 import com.example.myapplication.mvvmnews.android.model.NewsResponseViewData
 import com.example.myapplication.mvvmnews.android.repositories.NewsRepository
 import com.example.myapplication.mvvmnews.android.utils.Resource
@@ -25,7 +27,7 @@ class NewsViewModel(val repository: NewsRepository) : ViewModel() {
             latestNews.postValue(Resource.Loading())
             val response = repository.getLatestNews(countryCode,latestPage)
             latestNews.postValue(handleNewsResponse(response))
-            Log.d("AAAAAAAA", "response data = "+response.body());
+            Log.d("AAAAAAAA", "response data = "+response.body())
     }
 
     fun getSearchedNews(countryCode: String) =
@@ -54,5 +56,22 @@ class NewsViewModel(val repository: NewsRepository) : ViewModel() {
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun saveArticle(articleViewData: ArticleViewData): Boolean {
+        viewModelScope.launch {
+            repository.upsetArticle(articleViewData)
+        }
+        return true
+    }
+
+    fun deleteArticle(articleViewData: ArticleViewData) {
+        viewModelScope.launch {
+            repository.deleteArticle(articleViewData)
+        }
+    }
+
+    fun getSavedArticles(): LiveData<List<ArticleViewData>> {
+        return repository.getSavedArticles()
     }
 }

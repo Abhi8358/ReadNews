@@ -10,23 +10,31 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ArticlesFragmentBinding
 import com.example.myapplication.mvvmnews.android.ui.MainActivity
 import com.example.myapplication.mvvmnews.android.ui.NewsViewModel
+import com.example.myapplication.mvvmnews.android.utils.Constants.Companion.ARTICLE_URL
 
-class ArticlesFragment : Fragment(R.layout.articles_fragment) {
+class ArticlesFragment : Fragment() {
 
     lateinit var binding: ArticlesFragmentBinding
     lateinit var viewModel: NewsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //return super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, R.layout.latest_news_fragment, container, false)
+    ): View {
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.articles_fragment, container, false)
+        viewModel = (activity as MainActivity).viewModel
+        setArticleInWebView()
         return binding.root
+    }
+
+    private fun setArticleInWebView() {
+        val articleUrl: String = arguments?.getString(ARTICLE_URL).toString()
+        binding.viewArticleInWebView.loadUrl(articleUrl)
     }
 }
